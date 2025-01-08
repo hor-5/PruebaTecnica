@@ -1,12 +1,13 @@
 {
-  "vendor": "vtex",
-  "name": "store-theme",
-  "version": "5.2.0",
+  "vendor": "armotosandbox",
+  "name": "store",
+  "version": "0.1.0",
   "builders": {
     "styles": "2.x",
     "store": "0.x",
     "sitemap": "0.x",
-    "docs": "0.x"
+    "docs": "0.x",
+    "react": "3.x"
   },
   "mustUpdateAt": "2018-09-05",
   "scripts": {
@@ -64,8 +65,9 @@
     "vtex.condition-layout": "2.x",
     "vtex.css-handles": "1.x"
   },
-  "peerDependencies": {
-    "vtex.reviews-and-ratings": "3.x"
+  "peerDependencies": {},
+  "devDependencies": {
+    "typescript": "^4.0.0"
   },
   "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"
 }

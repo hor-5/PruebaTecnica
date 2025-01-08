@@ -1,7 +1,7 @@
 {
   "store.home": {
     "blocks": [
-      "list-context.image-list#demo",
+      "countdown-moto#test",
       /* You can make references to blocks defined in other files.
        * For example, `flex-layout.row#deals` is defined in the `deals.json` file. */
       "flex-layout.row#deals",
@@ -13,6 +13,14 @@
       "rich-text#link",
       "newsletter"
     ]
+  },
+
+  "countdown-moto#test": {
+    "props": {
+      "title": "¡Oferta por tiempo limitado!",
+      "targetDate": "2025-01-10T23:59:59",
+      "isVisible": true
+    }
   },
 
   "list-context.image-list#demo": {
