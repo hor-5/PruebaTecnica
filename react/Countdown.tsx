@@ -1,6 +1,7 @@
-
 import React, { useMemo, useState, useEffect } from 'react';
+import { Spinner } from 'vtex.styleguide'; // Importamos el spinner de Tachyons
 import '../styles/css/Countdown.css'
+
 interface CountdownProps {
   title: string;
   targetDate: string;
@@ -8,7 +9,6 @@ interface CountdownProps {
 }
 
 const Countdown = ({ title, targetDate, isVisible }: CountdownProps) => {
-  // Estado para el tiempo restante
   const [timeRemaining, setTimeRemaining] = useState({
     days: 0,
     hours: 0,
@@ -16,9 +16,17 @@ const Countdown = ({ title, targetDate, isVisible }: CountdownProps) => {
     seconds: 0,
   });
 
+  const [loading, setLoading] = useState(true); // Estado para manejar el spinner
+
   const parsedTargetDate = useMemo(() => new Date(targetDate), [targetDate]);
 
+  // Validación de la fecha de destino
   useEffect(() => {
+    if (isNaN(parsedTargetDate.getTime())) {
+      console.error('La fecha proporcionada no es válida');
+      return;
+    }
+
     const calculateTimeRemaining = () => {
       const now = new Date();
       const difference = parsedTargetDate.getTime() - now.getTime();
@@ -34,6 +42,7 @@ const Countdown = ({ title, targetDate, isVisible }: CountdownProps) => {
       const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
       setTimeRemaining({ days, hours, minutes, seconds });
+      setLoading(false); // Deja de mostrar el spinner cuando los datos estén listos
       return true;
     };
 
@@ -54,35 +63,43 @@ const Countdown = ({ title, targetDate, isVisible }: CountdownProps) => {
 
   return (
     <div className="tc bg-light pa5 ma5 br3">
-      <h1 className="f-subheadline lh-title fw5" style={{ color: '#001428'}}>
+      <h1 className="f-subheadline lh-title fw5" style={{ color: '#001428' }}>
         {title}
       </h1>
-      <div className="flex justify-center items-center">
-        <div className="ma3">
-          <div className="f1" style={{ color: '#001428' }}>
-            {timeRemaining.days}
-          </div>
-          <p className="f6 f5-ns" style={{ color: '#001428' }}>Días</p>
+
+      {/* Condicional para mostrar el spinner si está cargando */}
+      {loading ? (
+        <div className="tc">
+          <Spinner />
         </div>
-        <div className="ma3">
-          <div className="f1" style={{ color: '#001428' }}>
-            {timeRemaining.hours}
+      ) : (
+        <div className="flex justify-center items-center">
+          <div className="ma3">
+            <div className="f1" style={{ color: '#001428' }}>
+              {timeRemaining.days}
+            </div>
+            <p className="f6 f5-ns" style={{ color: '#001428' }}>Días</p>
           </div>
-          <p className="f6 f5-ns" style={{ color: '#001428' }}>Horas</p>
-        </div>
-        <div className="ma3">
-          <div className="f1" style={{ color: '#001428' }}>
-            {timeRemaining.minutes}
+          <div className="ma3">
+            <div className="f1" style={{ color: '#001428' }}>
+              {timeRemaining.hours}
+            </div>
+            <p className="f6 f5-ns" style={{ color: '#001428' }}>Horas</p>
           </div>
-          <p className="f6 f5-ns" style={{ color: '#001428' }}>Minutos</p>
-        </div>
-        <div className="ma3">
-          <div className="f1" style={{ color: '#001428' }}>
-            {timeRemaining.seconds}
+          <div className="ma3">
+            <div className="f1" style={{ color: '#001428' }}>
+              {timeRemaining.minutes}
+            </div>
+            <p className="f6 f5-ns" style={{ color: '#001428' }}>Minutos</p>
           </div>
-          <p className="f6 f5-ns" style={{ color: '#001428' }}>Segundos</p>
+          <div className="ma3">
+            <div className="f1" style={{ color: '#001428' }}>
+              {timeRemaining.seconds}
+            </div>
+            <p className="f6 f5-ns" style={{ color: '#001428' }}>Segundos</p>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
@@ -90,13 +107,13 @@ const Countdown = ({ title, targetDate, isVisible }: CountdownProps) => {
 // Valores por defecto para las propiedades del componente
 Countdown.defaultProps = {
   title: 'La oferta finaliza en',
-  targetDate: '2025-01-09T14:00:00',
+  targetDate: '2025-02-22T23:59:59',
   isVisible: true,
 };
 
 // Definición del esquema para el Site Editor
 Countdown.schema = {
-  title: 'Test Block',
+  title: 'Countdown',
   type: 'object',
   properties: {
     title: {
@@ -107,7 +124,7 @@ Countdown.schema = {
     targetDate: {
       type: 'string',
       title: 'Fecha de fin',
-      default: '2025-01-08T14:00:00',
+      default: '2025-02-22T23:59:59',
     },
     isVisible: {
       type: 'boolean',
