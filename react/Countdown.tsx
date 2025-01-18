@@ -124,7 +124,11 @@ Countdown.schema = {
     targetDate: {
       type: 'string',
       title: 'Fecha de fin',
-      default: '2025-02-22T23:59:59',
+      default: new Date().toISOString(),
+      format: 'date-time',
+      widget: {
+         "ui:widget": "datetime"
+      }
     },
     isVisible: {
       type: 'boolean',
